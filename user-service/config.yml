@@ -1,0 +1,10 @@
+kafka:
+  brokers:
+    - "localhost:9092"
+
+mongodb:
+  uri: "mongodb://localhost:27017"
+  database: "user-service"
+  max-pool-size: 50
+  min-pool-size: 10
+  max-conn-idle-time: 5

@@ -1,0 +1,78 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_service?serverTimezone=Asia/Taipei
+    username: "postgres"
+    password: "password"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    defer-datasource-initialization: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1037338938127-jvuia244vlndbtbmqqr1sdpadcj33113.apps.googleusercontent.com
+            client-secret: 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
+            scope: profile,email,openid
+          facebook:
+            clientId: 647506947504898
+            clientSecret: 4ba9f3955ffbb1e03530edd8c2545971
+            scope:
+              - email
+              - public_profile
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        retries: 3
+  data:
+    redis:
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 4
+          min-idle: 0
+          max-wait: -1ms
+      host: localhost
+      port: 6379
+      password:
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+
+tracing:
+  url: http://localhost:4318/v1/traces
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+
+frontend:
+  url:
+    origin: http://localhost:3001
+    error: http://localhost:3001/error
+
+jwt:
+  variables:
+    refreshTokenSecret: ss871104AuthServiceWithSpringApplicationAndOauth2Refresh
+    refreshTokenExpirationMs: 1296000000 # 15 days

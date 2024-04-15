@@ -1,0 +1,32 @@
+http:
+  routers:
+    auth-router:
+      rule: "PathPrefix(`/auth-service`)"
+      service: "auth-service"
+      entryPoints:
+        - "web"
+    user-router:
+      rule: "PathPrefix(`/user-service`)"
+      service: "user-service"
+      entryPoints:
+        - "web"
+      middlewares:
+        - "authMiddleware"
+
+  middlewares:  
+    authMiddleware:
+      forwardAuth:
+        address: "http://host.docker.internal/auth-service/api/auth/authenticate"
+        trustForwardHeader: true
+        authResponseHeaders:
+          - "X-Auth-User"
+
+  services:
+    auth-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8000"
+    user-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8001"
