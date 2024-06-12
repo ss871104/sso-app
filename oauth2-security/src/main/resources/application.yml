@@ -23,12 +23,12 @@ spring:
       client:
         registration:
           google:
-            client-id: 1037338938127-jvuia244vlndbtbmqqr1sdpadcj33113.apps.googleusercontent.com
-            client-secret: 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
+            client-id:
+            client-secret:
             scope: profile,email,openid
           facebook:
-            clientId: 647506947504898
-            clientSecret: 4ba9f3955ffbb1e03530edd8c2545971
+            clientId:
+            clientSecret:
             scope:
               - email
               - public_profile
